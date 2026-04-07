@@ -103,7 +103,7 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
           <!-- Delete dialog -->
           <dialog id="delete-dialog">
             <div class="dialog-header">
-              <div class="dialog-title">Add driver</div>
+              <div class="dialog-title">Delete driver</div>
               <button class="close">&times;</button>
             </div>
             <div id="delete-dialog-body">
