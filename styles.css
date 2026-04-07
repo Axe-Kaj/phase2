@@ -1,0 +1,225 @@
+:root {
+  --white:     #ffffff;
+  --blue2:     #2c72de;
+  --hoverg:    #f2f6f724;
+  --black:     #000000;
+  --borderg:   #9c9c9c;
+  --accent2:   #3b82f6;
+  --danger:    #ef4444;
+  --success:   #22c55e;
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --sidebar-w: 260px;
+  --main: sans-serif;
+}
+
+html,body{
+    min-height:100vh;
+    font-family:var(--main);
+    background:var(--white);
+    background-size:28px 28px;
+    color:var(--black)
+}
+
+/** Top bar **/
+.topnav{
+    display:flex;
+    align-items:center;
+    height:50px;
+    background:var(--white);
+    border-bottom: 1px solid var(--borderg);
+    padding:0 24px;
+    gap:0;
+    position:sticky;
+    top:0;
+    z-index:100
+}
+.nav-title{
+    font-family:var(--mono);
+    font-size:14px;
+    color:var(--black);
+    letter-spacing:3px;
+    margin-right:32px;
+    text-decoration:none
+}
+.layout { 
+    display: flex; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+a.btn {
+    text-decoration: none;
+}
+
+/** Side bar **/
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--black);
+  border-right: 1px solid var(--black);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.side-nav { 
+    padding: 16px 12px; 
+    flex: 1; 
+}
+.nav-groups { 
+    margin-bottom: 24px; 
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--white);
+  transition: all .15s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+.nav-item:hover { 
+    background: var(--hoverg);
+}
+.nav-item.active { 
+    background: var(--white); 
+    color: var(--blue2)
+}
+
+/** Side content **/
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+}
+.page-title{
+    font-family: 'Arial';
+    font-size: 36px;
+    font-weight: bolder;
+}
+.table-container {
+  width: max-content;
+}
+.button-wrapper {
+  text-align: right;
+}
+.btn {
+  margin-left: auto;
+  background: var(--black);
+  color: var(--white);
+  border: 1px;
+  border-radius: 4px;
+  padding: 8px 9px;
+  font-family: 'Arial';
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: opacity .15s;
+  letter-spacing: .3px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.btn:hover { 
+    opacity: .85; 
+}
+table{
+    border-collapse: collapse;
+    text-align: left;
+    margin-top: 20px;
+}
+table thead {
+    font-size: 11px;
+    font-weight: bold;
+    font-family: 'Arial';
+    border-bottom: 1px solid var(--borderg);
+    border-top: 1px solid var(--borderg);
+}
+table thead th, table thead td {
+    padding: 13px 11px;
+    text-align: left;
+}
+table tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--borderg);
+    font-size: 14px;
+
+}
+table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+table tbody td a {
+    color: var(--blue2);
+    text-decoration: none;
+    margin-right: 8px;
+    font-size: 12px;
+}
+table tbody td a:hover {
+    border: 1px solid var(--white);
+    padding: 4px 5px;
+    border-radius: 4px;
+    background: var(--white);
+}
+
+/* Dialog */
+[id$="-dialog"] {
+  width: 425px;
+  border: none;
+  border-radius: 3px;
+  padding: 0;
+}
+.close {
+   font-size: 19px;
+   background: none;
+   border: none;
+   cursor: pointer;
+}
+.close:hover {
+    background: #9c9c9c3b;
+    border-radius: 4px;
+    padding: 2px 7px;
+}
+.dialog-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--borderg);
+    flex-direction: row;
+    padding: 11px 19px;
+}
+.dialog-title{
+    font-family: 'Arial';
+    font-size: 16px;
+    font-weight: bolder;
+}
+[id$="-dialog-body"] {
+  padding: 20px;
+}
+
+/* Form */
+form label{
+    font-size: 11px;
+    font-weight: 600;
+}
+form input, select{
+    font-size: 14px;
+    border: 1px solid var(--borderg);
+    border-radius: 3px;
+    padding: 5px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 3px 0px 9px 0px;
+}
