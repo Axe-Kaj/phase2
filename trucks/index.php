@@ -64,9 +64,9 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($row['TruckType']); ?></td>
                         <td><?php echo htmlspecialchars($row['Brand']); ?></td>
                         <td>
-                          <a href="./edit.php?truck_id=<?= $row['truckID'] ?>" title="Edit truck" data-id="<?= $row['truckID'] ?>">
+                          <a href="./edit.php?truck_id=<?= $row['truckID'] ?>" title="Edit truck" class="edit-link" data-id="<?= $row['truckID'] ?>">
                             <i class="fa-solid fa-pen"></i></a>
-                          <a href="./delete.php?truck_id=<?= $row['truckID'] ?>" title="Delete truck" data-id="<?= $row['truckID'] ?>">
+                          <a href="./delete.php?truck_id=<?= $row['truckID'] ?>" title="Delete truck" class="delete-link" data-id="<?= $row['truckID'] ?>">
                             <i class="fa-solid fa-trash-can"></i></a>
                         </td>
                       </tr>
