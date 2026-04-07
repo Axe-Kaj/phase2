@@ -63,13 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="number" id="invoice_id" name="invoice_id" required>
         
         <label for="invoice_date">Invoice date</label>
-        <input type="text" id="invoice_date" name="invoice_date" required>
-        
-        <label for="total_amount">Total amount</label>
-        <input type="text" id="total_amount" name="total_amount" required>
+        <input type="date" id="invoice_date" name="invoice_date" required>
 
-        <label for="paid_flag">Paid</label>
-        <input type="text" id="paid_flag" name="paid_flag" required>
+        <label for="total_amount">Total Amount</label>
+        <input type="number" step="0.01" id="total_amount" name="total_amount" required>
+
+        <label for="paid_flag">Paid?</label>
+        <select name="paid_flag" id="paid_flag" required>
+            <option value="">--Select--</option>
+            <option value="1">Paid</option>
+            <option value="0">Not paid</option>
+        </select>
 
         <label for="customer_id">CustomerID</label>
         <input type="text" id="customer_id" name="customer_id" required>

@@ -1,7 +1,19 @@
 <?php
 require_once __DIR__ . '/../database.php';
 
-$statement = $conn->prepare('SELECT * FROM Customer');
+$type = $_GET['type'] ?? '';
+
+if ($type === 'Business') {
+    $statement = $conn->prepare("
+      SELECT * FROM Customer 
+      WHERE CustomerType IN ('Company', 'Enterprise')
+    ");
+} elseif ($type) {
+    $statement = $conn->prepare('SELECT * FROM Customer WHERE CustomerType = :type');
+    $statement->bindParam(':type', $type);
+} else {
+    $statement = $conn->prepare('SELECT * FROM Customer');
+}
 $statement->execute();
 $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -18,8 +30,23 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <!-- Top nav -->
     <nav class="topnav">
-        <a class="nav-title" href="../index.php">RENTRUCK</a>
+      <a class="nav-title" href="../index.php">RENTRUCK</a>
+      
+      <div class="profile">
+          <i class="fa-solid fa-users"></i>
+          <div class="dropdown">
+              <p><strong>COMP 353 - Phase 2</strong></p>
+              <p>Group ID: nwc353_4</p>
+              <p>
+                  Matthew Greiss      40316531 
+                  Aksheeta Kajrolkar  40223846
+                  Aaisha Mushtaq      40285341
+                  Aasiya Qadri        40263011
+              </p>
+          </div>
+      </div>
     </nav>
+
     <div class="layout">
         <!-- Side nav -->
         <div class="sidebar">
@@ -43,8 +70,26 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             <div class="table-container">
               <div class="button-wrapper">
-                  <a href="./create.php" class="btn" id="create-link">
-                    <i class="fa-solid fa-pen"></i> Add customer</a>
+
+                <div class="filter">
+                  <i class="fa-solid fa-filter btn"></i>
+                  <div class="dropdown">
+                    <form method="GET" class="filter-form">
+                    
+                    <label for="type">Customer type</label>  
+                    <select name="type" onchange="this.form.submit()">
+                        <option value="">All customer types</option>
+                        <option value="Individual" <?= (($_GET['type'] ?? '') === 'Individual') ? 'selected' : '' ?>>Individual</option>
+                        <option value="Enterprise" <?= (($_GET['type'] ?? '') === 'Enterprise') ? 'selected' : '' ?>>Enterprise</option>
+                        <option value="Company" <?= (($_GET['type'] ?? '') === 'Company') ? 'selected' : '' ?>>Company</option>
+                        <option value="Business" <?= (($_GET['type'] ?? '') === 'Business') ? 'selected' : '' ?>>Business</option>
+                      </select>
+                    </form>
+                  </div>
+                </div>
+
+                <a href="./create.php" class="btn" id="create-link">
+                  <i class="fa-solid fa-pen"></i> Add customer</a>
 
                 <table>
                   <thead>

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = "Customer ID does not exist.";
             } else {
                 // Insert reservation
-                $book = $conn->prepare("
+                $reservation = $conn->prepare("
                     INSERT INTO Reservations (reservationID, StartDate, EndDate, Status, customerID)
                     VALUES (:reservation_id, :start_date, :end_date, :status, :customer_id)
                 ");
@@ -74,45 +74,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Reservation</title>
-</head>
-<body>
-    <h1>Add New Reservation</h1>
 
-    <form action="./create.php" method="POST">
-        <label for="reservation_id">Reservation ID:</label>
-        <input type="number" id="reservation_id" name="reservation_id" required><br><br>
-
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date" required><br><br>
-
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date" required><br><br>
+<div class="create-reservation-form">
+    <form id="create-form"  action="./create.php" method="POST">
         
-        <label for="status">Status:</label>
+    <label for="reservation_id">Reservation ID</label>
+        <input type="number" id="reservation_id" name="reservation_id" required>
+
+        <label for="start_date">Start date</label>
+        <input type="date" id="start_date" name="start_date" required>
+
+        <label for="end_date">End date</label>
+        <input type="date" id="end_date" name="end_date" required>
+        
+        <label for="status">Status</label>
         <select name="status" id="status" required>
-            <option value="">-- Select Status --</option>
+            <option value="">-- Select status --</option>
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
             <option value="cancelled">Cancelled</option>
-        </select><br><br>
+        </select>
 
-        <label for="customer_id">Customer ID:</label>
-        <input type="number" id="customer_id" name="customer_id" required><br><br>
+        <label for="customer_id">Customer ID</label>
+        <input type="number" id="customer_id" name="customer_id" required>
 
-        <input type="submit" value="Add"><br>
+        <input type="submit" class="btn" value="Add reservation">
 
         <?php if (!empty($error)) { ?>
             <p style="color: red;"><?= htmlspecialchars($error) ?></p>
         <?php } ?>
     </form>
-
-    <br><br>
-    <a href="./index.php">Back to Reservation List</a>
-</body>
-</html>
+</div>

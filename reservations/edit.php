@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'] ?? '';
 
     try {
-	$stmt = $conn->prepare("
+        $stmt = $conn->prepare("
             UPDATE Reservations
             SET StartDate = :start_date,
                 EndDate = :end_date,
@@ -24,21 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             WHERE reservationID = :reservation_id
         ");
 
-	$stmt->bindParam(':start_date', $startDate);
+        $stmt->bindParam(':start_date', $startDate);
         $stmt->bindParam(':end_date', $endDate);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':customer_id', $customerId, PDO::PARAM_INT);
         $stmt->bindParam(':reservation_id', $reservationId, PDO::PARAM_INT);
-
         $stmt->execute();
-
+        
         header('Location: ./index.php');
         exit();
     } catch (PDOException $e) {
         $msg = $e->getMessage();
 
-if (strpos($msg, 'End date must be on or after start date') !== false) {
-    $error = "End date must be on or after start date.";
+        if (strpos($msg, 'End date must be on or after start date') !== false) {
+            $error = "End date must be on or after start date.";
         } elseif (strpos($msg, 'Reservation period cannot exceed 1 year.') !== false) {
             $error = "Reservation period cannot exceed 1 year.";
         } elseif (strpos($msg, 'foreign key constraint fails') !== false) {
@@ -68,68 +67,34 @@ if (!$reservation) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Reservation</title>
-</head>
-<body>
-    <h1>Edit Reservation</h1>
+<div class="edit-reservation-form">
+    <form id="edit-form" action="./edit.php" method="POST">
+        
+        <input type="hidden" name="reservation_id" value="<?= htmlspecialchars($reservation['reservationID']) ?>">
+        <input type="hidden" name="customer_id" value="<?= htmlspecialchars($reservation['customerID']) ?>">
+        <p>
+            <strong>Reservation ID:<?= htmlspecialchars($reservation['reservationID']) ?></strong>
+            <strong>Customer ID:<?= htmlspecialchars($reservation['customerID']) ?></strong>
+        </p>
+        
+        <label for="start_date">Start date</label>
+        <input type="date" id="start_date" name="start_date" value="<?= htmlspecialchars($reservation['StartDate']) ?>" required>
 
-    <form action="./edit.php" method="POST">
-        <input
-            type="hidden"
-            name="reservation_id"
-            value="<?= htmlspecialchars($reservation['reservationID']) ?>"
-        >
- <input
-            type="hidden"
-            name="customer_id"
-            value="<?= htmlspecialchars($reservation['customerID']) ?>"
-        >
-<p>
-    <strong>Reservation ID:</strong>
-    <?= htmlspecialchars($reservation['reservationID']) ?><br>
+        <label for="end_date">End date</label>
+        <input type="date" id="end_date" name="end_date" value="<?= htmlspecialchars($reservation['EndDate']) ?>" required>
 
-    <strong>Customer ID:</strong>
-    <?= htmlspecialchars($reservation['customerID']) ?>
-</p>
-        <label for="start_date">Start Date:</label>
-        <input
-            type="date"
-            id="start_date"
-            name="start_date"
-            value="<?= htmlspecialchars($reservation['StartDate']) ?>"
-            required
-        ><br><br>
-
-        <label for="end_date">End Date:</label>
-        <input
-            type="date"
-            id="end_date"
-            name="end_date"
-            value="<?= htmlspecialchars($reservation['EndDate']) ?>"
-            required
-        ><br><br>
-
-        <label for="status">Status:</label>
+        <label for="status">Status</label>
         <select name="status" id="status" required>
             <option value="pending" <?= $reservation['Status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
             <option value="confirmed" <?= $reservation['Status'] === 'confirmed' ? 'selected' : '' ?>>Confirmed</option>
             <option value="cancelled" <?= $reservation['Status'] === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
-        </select><br><br>
+        </select>
 
-        <input type="submit" value="Update">
+        <input type="submit" class="btn" value="Save">
 
         <?php if (!empty($error)) { ?>
             <p style="color: red;"><?= htmlspecialchars($error) ?></p>
         <?php } ?>
         
     </form>
-
-    <br><br>
-    <a href="./index.php">Back to reservation list</a>
-</body>
-</html>
+</div>

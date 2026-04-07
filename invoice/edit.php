@@ -60,18 +60,22 @@ if (!$invoice) {
     <form id="edit-form" action="./edit.php" method="POST">
         
         <input type="hidden" name="invoice_id" value="<?= htmlspecialchars($invoice['InvoiceID']) ?>">
+        <p><strong>Invoice ID: <?= htmlspecialchars($invoice['InvoiceID']) ?></strong></p>
 
         <label for="invoice_date">Invoice date</label>
-        <input type="text" id="invoice_date" name="invoice_date" value="<?= htmlspecialchars($invoice['InvoiceDate']) ?>" required>
+        <input type="date" id="invoice_date" name="invoice_date" value="<?= htmlspecialchars($invoice['InvoiceDate']) ?>" required>
 
         <label for="total_amount">Total Amount</label>
-        <input type="text" id="total_amount" name="total_amount" value="<?= htmlspecialchars($invoice['TotalAmount']) ?>" required>
+        <input type="number" step="0.01" id="total_amount" name="total_amount" value="<?= htmlspecialchars($invoice['TotalAmount']) ?>" required>
 
-        <label for="paid_flag">Paid</label>
-        <input type="text" id="paid_flag" name="paid_flag" value="<?= htmlspecialchars($invoice['PaidFlag']) ?>" required>
-
+        <label for="paid_flag">Paid?</label>
+        <select name="paid_flag" id="paid_flag" required>
+            <option value="1" <?= $invoice['PaidFlag'] == 1 ? 'selected' : '' ?>>Paid</option>
+            <option value="0" <?= $invoice['PaidFlag'] == 0 ? 'selected' : '' ?>>Not paid</option>
+        </select>
+        
         <label for="customer_id">CustomerID</label>
-        <input type="text" id="customer_id" name="customer_id" value="<?= htmlspecialchars($invoice['customerID']) ?>" required>
+        <input type="number" id="customer_id" name="customer_id" value="<?= htmlspecialchars($invoice['customerID']) ?>" required>
 
         <input type="submit" class="btn" value="Save">
 

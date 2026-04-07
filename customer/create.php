@@ -34,13 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (customerID, CustomerType, CustomerName, PhoneNumber, street, City, PostalCode)
                 VALUES (:customer_id, :customer_type, :customer_name, :phone_number, :street, :city, :postal_code)
                  ");
-                 $customer->bindParam(':customer_id', $customerID, PDO::PARAM_INT);
-                 $customer->bindParam(':customer_type', $customerType);
-                 $customer->bindParam(':customer_name', $customerName);
-                 $customer->bindParam(':phone_number', $phoneNumber);
-                 $customer->bindParam(':street', $street);
-                 $customer->bindParam(':city', $city);
-                 $customer->bindParam(':postal_code', $postalCode);
+            $customer->bindParam(':customer_id', $customerID, PDO::PARAM_INT);
+            $customer->bindParam(':customer_type', $customerType);
+            $customer->bindParam(':customer_name', $customerName);
+            $customer->bindParam(':phone_number', $phoneNumber);
+            $customer->bindParam(':street', $street);
+            $customer->bindParam(':city', $city);
+            $customer->bindParam(':postal_code', $postalCode);
             
             $customer->execute();
             header('Location: ./index.php');

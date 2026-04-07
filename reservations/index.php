@@ -19,8 +19,23 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <!-- Top nav -->
     <nav class="topnav">
-        <a class="nav-title" href="../index.php">RENTRUCK</a>
+      <a class="nav-title" href="../index.php">RENTRUCK</a>
+
+      <div class="profile">
+        <i class="fa-solid fa-users"></i>
+        <div class="dropdown">
+          <p><strong>COMP 353 - Phase 2</strong></p>
+          <p>Group ID: nwc353_4</p>
+          <p>
+              Matthew Greiss      40316531 
+              Aksheeta Kajrolkar  40223846
+              Aaisha Mushtaq      40285341
+              Aasiya Qadri        40263011
+          </p>
+        </div>
+      </div>
     </nav>
+    
     <div class="layout">
         <!-- Side nav -->
         <div class="sidebar">
@@ -44,9 +59,8 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 
           <div class="table-container">
             <div class="button-wrapper">
-              <button class="btn" id="btn">
-                <i class="fa-solid fa-plus"></i> Add reservations
-              </button>
+              <a href="./create.php" class="btn" id="create-link">
+                <i class="fa-solid fa-pen"></i> Add reservation</a>
 
               <table>
                 <thead>
@@ -69,9 +83,9 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
                       <td><?php echo $row['Status']; ?></td>
                       <td><?php echo $row['customerID']; ?></td>
                       <td>
-                        <a href="./edit.php?truck_id=<?= $row['reservationID'] ?>" title="Edit reservation">
+                        <a href="./edit.php?reservation_id=<?= $row['reservationID'] ?>" title="Edit reservation" class="edit-link" data-id="<?= $row['reservationID'] ?>">
                           <i class="fa-solid fa-pen"></i></a>
-                        <a href="./delete.php?truck_id=<?= $row['reservationID'] ?>" title="Delete reservation">
+                        <a href="./delete.php?reservation_id=<?= $row['reservationID'] ?>" title="Delete reservation" class="delete-link" data-id="<?= $row['reservationID'] ?>">
                           <i class="fa-solid fa-trash-can"></i></a>
                       </td>
                     </tr>
@@ -79,8 +93,116 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
               </table>     
             </div>
-          </div>     
+          </div>    
+          
+          <!-- Edit dialog -->
+          <dialog id="edit-dialog">
+            <div class="dialog-header">
+              <div class="dialog-title">Edit 1 reservation</div>
+              <button class="close">&times;</button>
+            </div>
+            <div id="edit-dialog-body">
+              <!-- form -->
+            </div>
+          </dialog>
+
+          <!-- Create dialog -->
+          <dialog id="create-dialog">
+            <div class="dialog-header">
+              <div class="dialog-title">Add reservation</div>
+              <button class="close">&times;</button>
+            </div>
+            <div id="create-dialog-body">
+              <!-- form -->
+            </div>
+          </dialog>
+
+          <!-- Delete dialog -->
+          <dialog id="delete-dialog">
+            <div class="dialog-header">
+              <div class="dialog-title">Delete reservation</div>
+              <button class="close">&times;</button>
+            </div>
+            <div id="delete-dialog-body">
+              <!-- form -->
+            </div>
+          </dialog>
+
         </div>
     </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Open and load
+      async function openDialog(dialog, modalBody, url) {
+        dialog.showModal();
+        try {
+          const response = await fetch(url);
+          const html = await response.text();
+          modalBody.innerHTML = html;
+
+          // Attach a single submit listener
+          const form = modalBody.querySelector('form');
+          if (!form) return;
+
+          form.addEventListener('submit', async function(ev) {
+            ev.preventDefault();
+            const formData = new FormData(form);
+            try {
+              const res = await fetch(form.action, { method: 'POST', body: formData });
+              const result = await res.text();
+              if (result.includes("success")) {
+                dialog.close();
+                location.reload();
+              } else {
+                modalBody.innerHTML = result; // show errors
+              }
+            } catch (err) {
+              alert("Form submission failed");
+              console.error(err);
+            }
+          });
+        } catch (err) {
+          modalBody.innerHTML = "<p>Failed to load form.</p>";
+          console.error(err);
+        }
+      }
+
+      // Edit dialog
+      const editDialog = document.getElementById('edit-dialog');
+      const editBody = document.getElementById('edit-dialog-body');
+      document.querySelectorAll('.edit-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const id = this.dataset.id;
+          openDialog(editDialog, editBody, `edit.php?customer_id=${id}`);
+        });
+      });
+      editDialog.querySelector('.close').addEventListener('click', () => editDialog.close());
+
+      // Create dialog
+      const createDialog = document.getElementById('create-dialog');
+      const createBody = document.getElementById('create-dialog-body');
+
+      document.getElementById('create-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        openDialog(createDialog, createBody, `create.php`);
+      });
+      createDialog.querySelector('.close').addEventListener('click', () => createDialog.close());
+
+      // Delete dialog
+      const deleteDialog = document.getElementById('delete-dialog');
+      const deleteBody = document.getElementById('delete-dialog-body');
+      document.querySelectorAll('.delete-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const id = this.dataset.id;
+          openDialog(deleteDialog, deleteBody, `delete.php?customer_id=${id}`);
+        });
+      });
+      deleteDialog.querySelector('.close').addEventListener('click', () => deleteDialog.close())
+    });
+  </script>
 </body>
 </html>

@@ -129,7 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mission->bindParam(':reservation_id', $reservationID, PDO::PARAM_INT);
 
             $mission->execute();
-
             header('Location: ./index.php');
             exit();
         }
@@ -155,48 +154,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form id="create-form" action="./create.php" method="POST">
 
         <label for="mission_id">Mission ID</label>
-        <input type="number" id="mission_id" name="mission_id"
-               value="<?= htmlspecialchars($_POST['mission_id'] ?? '') ?>" required>
+        <input type="number" id="mission_id" name="mission_id" required>
 
         <label for="start_datetime">Start DateTime</label>
-        <input type="datetime-local" id="start_datetime" name="start_datetime"
-               value="<?= htmlspecialchars($_POST['start_datetime'] ?? '') ?>" required>
+        <input type="datetime-local" id="start_datetime" name="start_datetime" required>
 
         <label for="end_datetime">End DateTime</label>
-        <input type="datetime-local" id="end_datetime" name="end_datetime"
-               value="<?= htmlspecialchars($_POST['end_datetime'] ?? '') ?>" required>
+        <input type="datetime-local" id="end_datetime" name="end_datetime" required>
 
         <label for="rendezvous_address">Rendez-vous address</label>
-        <input type="text" id="rendezvous_address" name="rendezvous_address"
-               value="<?= htmlspecialchars($_POST['rendezvous_address'] ?? '') ?>" required>
+        <input type="text" id="rendezvous_address" name="rendezvous_address" required>
 
         <label for="status">Status</label>
         <select name="status" id="status" required>
             <option value="">-- Select Status --</option>
-            <option value="pending" <?= (($_POST['status'] ?? '') === 'pending') ? 'selected' : '' ?>>Pending</option>
-            <option value="confirmed" <?= (($_POST['status'] ?? '') === 'confirmed') ? 'selected' : '' ?>>Confirmed</option>
-            <option value="cancelled" <?= (($_POST['status'] ?? '') === 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="cancelled">Cancelled</option>
         </select>
 
         <label for="odometer_start">Odometer start</label>
-        <input type="number" id="odometer_start" name="odometer_start"
-               value="<?= htmlspecialchars($_POST['odometer_start'] ?? '') ?>" required>
+        <input type="number" id="odometer_start" name="odometer_start" required>
 
         <label for="odometer_end">Odometer end</label>
-        <input type="number" id="odometer_end" name="odometer_end"
-               value="<?= htmlspecialchars($_POST['odometer_end'] ?? '') ?>" required>
+        <input type="number" id="odometer_end" name="odometer_end" required>
 
         <label for="driver_id">Driver ID</label>
-        <input type="number" id="driver_id" name="driver_id"
-               value="<?= htmlspecialchars($_POST['driver_id'] ?? '') ?>" required>
+        <input type="number" id="driver_id" name="driver_id" required>
 
         <label for="truck_id">Truck ID</label>
-        <input type="number" id="truck_id" name="truck_id"
-               value="<?= htmlspecialchars($_POST['truck_id'] ?? '') ?>" required>
+        <input type="number" id="truck_id" name="truck_id" required>
 
         <label for="reservation_id">Reservation ID</label>
-        <input type="number" id="reservation_id" name="reservation_id"
-               value="<?= htmlspecialchars($_POST['reservation_id'] ?? '') ?>" required>
+        <input type="number" id="reservation_id" name="reservation_id" required>
 
         <input type="submit" class="btn" value="Add mission">
 

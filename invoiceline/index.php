@@ -19,8 +19,23 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <!-- Top nav -->
     <nav class="topnav">
-        <a class="nav-title" href="../index.php">RENTRUCK</a>
+      <a class="nav-title" href="../index.php">RENTRUCK</a>
+
+      <div class="profile">
+        <i class="fa-solid fa-users"></i>
+        <div class="dropdown">
+          <p><strong>COMP 353 - Phase 2</strong></p>
+          <p>Group ID: nwc353_4</p>
+          <p>
+              Matthew Greiss      40316531 
+              Aksheeta Kajrolkar  40223846
+              Aaisha Mushtaq      40285341
+              Aasiya Qadri        40263011
+          </p>
+        </div>
+      </div>
     </nav>
+    
     <div class="layout">
         <!-- Side nav -->
         <div class="sidebar">

@@ -15,10 +15,5 @@ try {
 } catch (PDOException $e) {
     echo "<h2>Cannot delete invoice</h2>";
     echo "<p>This invoice may be linked to invoice lines or payments.</p>";
-    echo "<a href='./index.php'>Back to invoice list</a>";
 }
 ?>
-
-
-
-
