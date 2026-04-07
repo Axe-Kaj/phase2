@@ -44,9 +44,8 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
             
             <div class="table-container">
                 <div class="button-wrapper">
-                    <button class="btn" id="btn">
-                        <i class="fa-solid fa-plus"></i> Add mission
-                    </button>
+                    <a href="./create.php" class="btn" id="create-link">
+                        <i class="fa-solid fa-pen"></i> Add mission</a>
 
                     <table>
                         <thead>
@@ -79,10 +78,10 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
                             <td><?php echo htmlspecialchars($row['truckID']); ?></td>
                             <td><?php echo htmlspecialchars($row['reservationID']); ?></td>
                             <td>
-                                <a href="./edit.php?mission_id=<?= $row['missionID'] ?>" title="Edit mission">
-                                <i class="fa-solid fa-pen"></i></a>
-                                <a href="./delete.php?mission_id=<?= $row['missionID'] ?>" title="Delete mission">
-                                <i class="fa-solid fa-trash-can"></i></a>
+                                <a href="./edit.php?mission_id=<?= $row['missionID'] ?>" title="Edit mission" class="edit-link" data-id="<?= $row['missionID'] ?>">
+                                    <i class="fa-solid fa-pen"></i></a>
+                                <a href="./delete.php?mission_id=<?= $row['missionID'] ?>" title="Delete mission" class="delete-link" data-id="<?= $row['missionID'] ?>">
+                                    <i class="fa-solid fa-trash-can"></i></a>
                             </td>
                             </tr>
                         <?php endforeach ?>
@@ -90,7 +89,114 @@ $all = $statement->fetchAll(PDO::FETCH_ASSOC);
                     </table>    
                 </div>
             </div> 
+
+            <!-- Edit dialog -->
+            <dialog id="edit-dialog">
+                <div class="dialog-header">
+                <div class="dialog-title">Edit 1 mission</div>
+                <button class="close">&times;</button>
+                </div>
+                <div id="edit-dialog-body">
+                <!-- form -->
+                </div>
+            </dialog>
+
+            <!-- Create dialog -->
+            <dialog id="create-dialog">
+                <div class="dialog-header">
+                <div class="dialog-title">Add mission</div>
+                <button class="close">&times;</button>
+                </div>
+                <div id="create-dialog-body">
+                <!-- form -->
+                </div>
+            </dialog>
+
+            <!-- Delete dialog -->
+            <dialog id="delete-dialog">
+                <div class="dialog-header">
+                <div class="dialog-title">Delete mission</div>
+                <button class="close">&times;</button>
+                </div>
+                <div id="delete-dialog-body">
+                <!-- form -->
+                </div>
+            </dialog>
         </div>
     </div>
+
+  <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Open and load
+            async function openDialog(dialog, modalBody, url) {
+                dialog.showModal();
+                try {
+                const response = await fetch(url);
+                const html = await response.text();
+                modalBody.innerHTML = html;
+
+                // Attach a single submit listener
+                const form = modalBody.querySelector('form');
+                if (!form) return;
+
+                form.addEventListener('submit', async function(ev) {
+                    ev.preventDefault();
+                    const formData = new FormData(form);
+                    try {
+                    const res = await fetch(form.action, { method: 'POST', body: formData });
+                    const result = await res.text();
+                    if (result.includes("success")) {
+                        dialog.close();
+                        location.reload();
+                    } else {
+                        modalBody.innerHTML = result; // show errors
+                    }
+                    } catch (err) {
+                    alert("Form submission failed");
+                    console.error(err);
+                    }
+                });
+                } catch (err) {
+                modalBody.innerHTML = "<p>Failed to load form.</p>";
+                console.error(err);
+                }
+            }
+
+            // Edit dialog
+            const editDialog = document.getElementById('edit-dialog');
+            const editBody = document.getElementById('edit-dialog-body');
+            document.querySelectorAll('.edit-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                openDialog(editDialog, editBody, `edit.php?mission_id=${id}`);
+                });
+            });
+            editDialog.querySelector('.close').addEventListener('click', () => editDialog.close());
+
+            // Create dialog
+            const createDialog = document.getElementById('create-dialog');
+            const createBody = document.getElementById('create-dialog-body');
+
+            document.getElementById('create-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                openDialog(createDialog, createBody, `create.php`);
+            });
+            createDialog.querySelector('.close').addEventListener('click', () => createDialog.close());
+
+            // Delete dialog
+            const deleteDialog = document.getElementById('delete-dialog');
+            const deleteBody = document.getElementById('delete-dialog-body');
+            document.querySelectorAll('.delete-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                openDialog(deleteDialog, deleteBody, `delete.php?mission_id=${id}`);
+                });
+            });
+            deleteDialog.querySelector('.close').addEventListener('click', () => deleteDialog.close())
+        });
+    </script>
 </body>
 </html>

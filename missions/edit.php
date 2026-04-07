@@ -5,7 +5,6 @@ ini_set('display_errors', 1);
 require_once '../database.php';
 
 $error = '';
-
 $missionID = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -145,65 +144,53 @@ if (!$mission) {
     die('Mission not found.');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Mission</title>
-</head>
-<body>
-    <h1>Edit Mission</h1>
-
-    <form action="./edit.php" method="POST">
+<div class="edit-mission-form">
+    <form id="edit-form" action="./edit.php" method="POST">
         <input type="hidden" name="mission_id" value="<?= htmlspecialchars($mission['missionID']) ?>">
         <input type="hidden" name="driver_id" value="<?= htmlspecialchars($mission['driverID']) ?>">
         <input type="hidden" name="truck_id" value="<?= htmlspecialchars($mission['truckID']) ?>">
         <input type="hidden" name="reservation_id" value="<?= htmlspecialchars($mission['reservationID']) ?>">
 
         <p>
-            <strong>Mission ID:</strong> <?= htmlspecialchars($mission['missionID']) ?><br>
-            <strong>Driver ID:</strong> <?= htmlspecialchars($mission['driverID']) ?><br>
-            <strong>Truck ID:</strong> <?= htmlspecialchars($mission['truckID']) ?><br>
-            <strong>Reservation ID:</strong> <?= htmlspecialchars($mission['reservationID']) ?><br>
+            <strong>Mission ID</strong> <?= htmlspecialchars($mission['missionID']) ?>
+            <strong>Driver ID</strong> <?= htmlspecialchars($mission['driverID']) ?>
+            <strong>Truck ID</strong> <?= htmlspecialchars($mission['truckID']) ?>
+            <strong>Reservation ID</strong> <?= htmlspecialchars($mission['reservationID']) ?>
         </p>
 
-        <label for="start_datetime">Start DateTime:</label>
+        <label for="start_datetime">Start DateTime</label>
         <input type="datetime-local" id="start_datetime" name="start_datetime"
-               value="<?= htmlspecialchars($_POST['start_datetime'] ?? date('Y-m-d\TH:i', strtotime($mission['StartDateTime']))) ?>" required><br><br>
+               value="<?= htmlspecialchars($_POST['start_datetime'] ?? date('Y-m-d\TH:i', strtotime($mission['StartDateTime']))) ?>" required>
 
-        <label for="end_datetime">End DateTime:</label>
+        <label for="end_datetime">End DateTime</label>
         <input type="datetime-local" id="end_datetime" name="end_datetime"
-               value="<?= htmlspecialchars($_POST['end_datetime'] ?? date('Y-m-d\TH:i', strtotime($mission['EndDateTime']))) ?>" required><br><br>
+               value="<?= htmlspecialchars($_POST['end_datetime'] ?? date('Y-m-d\TH:i', strtotime($mission['EndDateTime']))) ?>" required>
 
-        <label for="rendezvous_address">Rendezvous Address:</label>
+        <label for="rendezvous_address">Rendez-vous address</label>
         <input type="text" id="rendezvous_address" name="rendezvous_address"
-               value="<?= htmlspecialchars($_POST['rendezvous_address'] ?? $mission['rendezvousAddress']) ?>" required><br><br>
+               value="<?= htmlspecialchars($_POST['rendezvous_address'] ?? $mission['rendezvousAddress']) ?>" required>
 
-        <label for="status">Status:</label>
+        <label for="status">Status</label>
         <select name="status" id="status" required>
             <?php $selectedStatus = $_POST['status'] ?? $mission['status']; ?>
             <option value="pending" <?= $selectedStatus === 'pending' ? 'selected' : '' ?>>Pending</option>
             <option value="confirmed" <?= $selectedStatus === 'confirmed' ? 'selected' : '' ?>>Confirmed</option>
             <option value="cancelled" <?= $selectedStatus === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
-        </select><br><br>
+        </select>
 
-        <label for="odometer_start">Odometer Start:</label>
+        <label for="odometer_start">Odometer start</label>
         <input type="number" id="odometer_start" name="odometer_start"
-               value="<?= htmlspecialchars($_POST['odometer_start'] ?? $mission['odometerStart']) ?>" required><br><br>
+               value="<?= htmlspecialchars($_POST['odometer_start'] ?? $mission['odometerStart']) ?>" required>
 
-        <label for="odometer_end">Odometer End:</label>
+        <label for="odometer_end">Odometer end</label>
         <input type="number" id="odometer_end" name="odometer_end"
-               value="<?= htmlspecialchars($_POST['odometer_end'] ?? $mission['odometerEnd']) ?>" required><br><br>
+               value="<?= htmlspecialchars($_POST['odometer_end'] ?? $mission['odometerEnd']) ?>" required>
 
-        <input type="submit" value="Update">
+        <input type="submit" class="btn" value="Save">
 
         <?php if (!empty($error)) { ?>
             <p style="color: red;"><?= htmlspecialchars($error) ?></p>
         <?php } ?>
     </form>
 
-    <br><br>
-    <a href="./index.php">Back to mission list</a>
-</body>
-</html>
+</div>
