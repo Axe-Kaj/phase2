@@ -58,19 +58,19 @@ if (!$driver) {
         
         <input type="hidden" name="driver_id" value="<?= htmlspecialchars($driver['driverID']) ?>">
 
-        <label for="first_name">First Name:</label>
+        <label for="first_name">First Name</label>
         <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($driver['FirstName']) ?>" required><br><br>
 
-        <label for="last_name">Last Name:</label>
+        <label for="last_name">Last Name</label>
         <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($driver['LastName']) ?>" required><br><br>
 
-        <label for="class">Class:</label>
+        <label for="class">Class</label>
         <select name="class" id="class" required>
             <option value="">-- Select Class --</option>
-            <option value="tourism" <?= ($driver['class'] === 'tourism') ? 'selected' : '' ?>>tourism</option>
-            <option value="heavyweight" <?= ($driver['class'] === 'heavyweight') ? 'selected' : '' ?>>heavyweight</option>
-            <option value="super-heavyweight" <?= ($driver['class'] === 'super-heavyweight') ? 'selected' : '' ?>>super-heavyweight</option>
-        </select><br><br>
+            <option value="tourism" <?= ($driver['class'] === 'tourism') ? 'selected' : '' ?>>Tourism</option>
+            <option value="heavyweight" <?= ($driver['class'] === 'heavyweight') ? 'selected' : '' ?>>Heavyweight</option>
+            <option value="super-heavyweight" <?= ($driver['class'] === 'super-heavyweight') ? 'selected' : '' ?>>Super-heavyweight</option>
+        </select>
 
         <input type="submit" class="btn" value="Save">
 
