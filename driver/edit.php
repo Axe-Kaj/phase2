@@ -72,7 +72,7 @@ if (!$driver) {
             <option value="super-heavyweight" <?= ($driver['class'] === 'super-heavyweight') ? 'selected' : '' ?>>super-heavyweight</option>
         </select><br><br>
 
-        <input type="submit" class="btn" value="Save"><br>
+        <input type="submit" class="btn" value="Save">
 
         <?php if (!empty($error)) { ?>
             <p style="color: red;"><?= htmlspecialchars($error) ?></p>
